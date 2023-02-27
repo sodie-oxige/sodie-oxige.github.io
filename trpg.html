@@ -26,7 +26,6 @@
 			width: 100%;height: auto;
 			top: 0;
 			left: 0;
-			padding-top: 1em;
 		}
 		#bg{
 			width: 100%;
@@ -40,64 +39,55 @@
 		#icon{
 			height: 15vw;
 			max-height: 15vh;
-			transform: translateY(-100%);
+			transform: translateY(-40%);
 		}
-		#icon>img{
-			width: 30vw;
-			max-width: 30vh;
+		#icon>.icon{
+			width: min(20vw,20vh);
+			height: min(20vw,20vh);
 			top: 0;
 			left: 10px;
-			border-radius: 10%;
+			overflow: hidden;
 		}
-		#icon>h1{
-			position: absolute;
-			top: min(15vw,15vh);
-			left: calc(min(30vh,30vw) + 1em);
-			white-space: nowrap;
-		}
-		#icon>h1>small{
-			font-size: 0.5em;
-			color: silver;
-		}
-		.cont{
-			background-color: var(--bg);
-			padding:2em 5% 2.5em;
-			--bg:#eee;
-			transition: all 0.3s;
-		}
-		.cont:nth-of-type(2n){
-			--bg:white;
-		}
-		.item:hover{
-			background-color: var(--bg);
-			padding:5em 5% 6.5em;
-		}
-		.item::before{
-			content: "";
-			width: 0;
-			height: 0;
-			position: absolute;
-			top: -1em;
-			left: 0;
-			border-style: solid;
-			border-width: 1em 100vw 0 0;
-			border-color: transparent var(--bg);
+		#icon>.icon>img{
+			width: 100%;
 			z-index: 1;
+			border-radius: 10%;
+			transform:rotateY(0deg);
+			transition: all 0.5s;
 		}
-		.cont:nth-of-type(2n)::before{
-			border-width: 1em 0 0 100vw;
+		.icon::before{
+			content: "ホームへ戻る";
+			position: absolute;
+			display: inline-block;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(0,0,0,0.5);
+			border-radius: 10%;
+			color: white;
+			text-align: center;
+			line-height: min(20vw,20vh);
+			z-index: 0;
+			transform:rotateY(180deg);
+			transition: all 0.5s;
 		}
-		.cont>*{
-			margin-bottom: 1em;
+		#icon>.icon:hover>img{
+			transform:rotateY(180deg);
+		}
+		.icon:hover::before{
+			z-index: 3;
+			transform:rotateY(0deg);
 		}
 		#link{
+			position: absolute;
 			display: flex;
+			top: calc(min(20vw,20vh) - 60px);
+			left: calc(min(20vw,20vh) + 1em);
 		}
 		.linkbutton{
 			display: block;
-			margin: 10px;
-			width: 70px;
-			height: 70px;
+			margin: 5px;
+			width: 40px;
+			height: 40px;
 			border:thin solid rgba(0,0,0,0.2);
 			border-radius: 50%;
 			background-color: var(--bg);
@@ -121,7 +111,7 @@
 			}
 		}
 		.linkbutton svg{
-			padding: 15px;
+			padding: 10px;
 			width: 100%;
 			height: 100%;
 			stroke:black;
@@ -135,22 +125,6 @@
 			font-weight: bold;
 			text-anchor: middle;
 		}
-		.linkbutton p{
-			position: absolute;
-			display: block;
-			width: 100%;
-			bottom: -1.5rem;
-			font-family: serif;
-			text-align: center;
-			font-size: 12px;
-			color: black;
-			word-break: keep-all;
-			line-height: 1;
-		}
-		.linkbutton p.short{
-			font-size: 0.7em;
-			font-weight: bold;
-		}
 		.linkbutton:hover{
 			background-color: #444;
 		}
@@ -158,12 +132,81 @@
 			stroke: white;
 			fill: #ccc;
 		}
+		.cont{
+			background-color: var(--bg);
+			padding:1.5em 5% 3.5em;
+			--bg:#eee;
+			--mask: white;
+		}
+		.cont:nth-of-type(2n){
+			--bg:white;
+			--mask: #eee;
+		}
+		.cont::before{
+			content: "";
+			width: 0;
+			height: 0;
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			border-style: solid;
+			border-width: 1em 100vw 0 0;
+			border-color: transparent var(--mask);
+			z-index: 1;
+			overflow: visible !important;
+		}
+		.cont:nth-of-type(2n)::before{
+			border-width: 1em 0 0 100vw;
+		}
+		.cont>*{
+			margin-bottom: 1em;
+		}
+		.cont h2{
+			position: sticky;
+			top:0;
+			background-color: var(--bg);
+			z-index:1;
+		}
+		.cont h3{
+			margin-bottom: 0.3rem;
+		}
+		.ac{
+			max-height: 3000px;
+			transition: all 1s;
+		}
+		.ac>*:not(h2){
+			opacity: 1;
+			transition: all 1s;
+		}
+		.ac:not(.open){
+			max-height: 7em;
+			overflow: hidden;
+		}
+		.ac:not(.open)>*:not(h2){
+			opacity: 0;
+		}
+		.ac>h2{
+			text-indent: 1em;
+		}
+		.ac>h2::before{
+			content:"";
+			position:absolute;
+			height: 0.3em;
+			width: 0.3em;
+			border-bottom: 0.15em solid black;
+			border-right: 0.15em solid black;
+			top: 0.55em;left:0.15em;
+			transition:all 0.5s;}
+		.ac:not(.open)>h2::before{
+			transform: rotate(-45deg);}
+		.ac.open>h2::before{
+			transform: rotate(45deg);}
 		h1,h2,h3,h4,h5,h6{
 			font-family: "M+";
 		}
 		h2{
 			border-bottom: solid;
-			border-image: linear-gradient(to right, black, transparent 50%);
+			border-image: linear-gradient(to right, black, transparent);
 			border-image-slice: 1;
 		}
 		small{
@@ -173,10 +216,21 @@
 		li{
 			padding-left: 3em;
 			list-style: none;
-			font-family: "M+";
 		}
 		li::before{
 			content: "・";
+			position: absolute;
+			left: 1.5em;
+		}
+		b{
+			color:red;
+		}
+		u{
+			text-decoration: none;
+			color: gray;
+		}
+		u>b{
+			color: pink;
 		}
 	</style>
 </head>
@@ -184,50 +238,109 @@
 	<div id="bg"></div>
 	<div id="main">
 		<div id="icon">
-			<img src="index/icon.jpg" class="icon">
-			<h1>袖置<small>って「そでおき」って読むんですよ読みにくいよね～って言う感じのページ。なにこれ。</small></h1>
-		</div>
-		<div class="cont">
-			<h2>自己紹介</h2>
-			<p>
-				立ち絵メインで絵を描いたりする人間。<br>
-				TRPGとかソフトウェアトーク<small>（って伝わりづらそうだしもうボイロでよくない？）</small>の沼に片足突っ込んでる。その為に描き始めたところもある。<br>
-				jsかじってるのでchrome拡張機能とかこのページ作ったりで遊んだり。<br>
-			</p>
+			<div class="icon" onclick='jump("index.html")'><img src="index/icon.jpg"></div>
 			<div id="link">
 				<a class="linkbutton" href="https://twitter.com/sodie_oxige">
 					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-twitter"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
-					<p>twitter</p>
 				</a>
 				<a class="linkbutton" href="https://twitter.com/sodie_oxige">
 					<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" width="240px" height="240px">    <path d="M12.14,2C9.513,2,6.595,2.983,5.981,6.196C5.915,6.538,6.154,6.714,6.38,6.764l2.668,0.272 c0.251-0.013,0.451-0.247,0.499-0.494c0.23-1.107,1.167-1.654,2.219-1.654c0.568,0,1.21,0.213,1.546,0.716 c0.388,0.562,0.324,1.324,0.324,1.975v0.37C12.035,8.127,9.947,8.236,8.45,8.887c-1.73,0.74-2.942,2.249-2.942,4.468 c0,2.839,1.815,4.27,4.139,4.27c1.963,0,3.023-0.471,4.538-1.999c0.501,0.718,0.679,1.072,1.596,1.827 c0.206,0.109,0.466,0.088,0.648-0.074v0.025c0.551-0.486,1.556-1.358,2.119-1.827c0.224-0.182,0.176-0.467,0-0.716 c-0.505-0.69-1.022-1.262-1.022-2.543V8.072c0-1.804,0.121-3.473-1.222-4.715C15.244,2.351,13.482,2,12.14,2z M12.888,10.146 c0.249-0.016,0.498,0,0.748,0v0.592c0,1.065,0.043,1.941-0.499,2.888c-0.439,0.769-1.145,1.234-1.92,1.234 c-1.059,0-1.671-0.792-1.671-1.975C9.546,10.85,11.146,10.259,12.888,10.146z M20.517,16.515c-0.699,0.01-1.518,0.157-2.144,0.592 c-0.192,0.134-0.164,0.321,0.05,0.296c0.705-0.084,2.263-0.281,2.543,0.074c0.28,0.355-0.31,1.815-0.573,2.468 c-0.08,0.197,0.094,0.273,0.274,0.123c1.173-0.972,1.487-2.988,1.247-3.283C21.795,16.641,21.217,16.505,20.517,16.515z M2.141,16.885c-0.146,0.019-0.204,0.208-0.05,0.346c2.608,2.331,6.047,3.727,9.874,3.727c2.73,0,5.917-0.846,8.104-2.444 c0.361-0.265,0.046-0.674-0.324-0.518c-2.452,1.03-5.131,1.53-7.555,1.53c-3.594,0-7.061-0.971-9.874-2.592 C2.254,16.899,2.189,16.879,2.141,16.885z"/></svg>
-					<p class="short">欲しいもの<wbr>リスト</p>
 				</a>
 				<a class="linkbutton" href="https://odaibako.net/u/sodie_oxige">
 					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-archive"><polyline points="21 8 21 21 3 21 3 8"></polyline><rect x="1" y="3" width="22" height="5"></rect><line x1="10" y1="12" x2="14" y2="12"></line></svg>
-					<p>お題箱</p>
 				</a>
-				<a class="linkbutton" href="https://skeb.jp/@sodie_oxige">
+				<a class="linkbutton" href="https://odaibako.net/u/sodie_oxige">
 					<svg class="skeb" viewBox="0 0 100 100">
 						<text x="50" y="90">S</text>
 					</svg>
-					<p>skeb</p>
 				</a>
 			</div>
 		</div>
-		<div class="cont item" onclick='jump("illust.html")'>
-			<h2>イラスト</h2>
+		<div class="cont">
+			<h2>TRPG</h2>
+			<p>
+				基本は夜型。21:00～24:00がメイン。<br>
+				ただし土日祝日は昼もいけるかもしれない。<br>
+				システムは雑多。<br>
+			</p>
+		</div>
+		<div class="cont ac">
+			<h2>所持ルルブ</h2>
 			<ul>
-				<li>過去イラスト</li>
+				<li>アマデウス</li>
+				<li>キズナバレット（１、２）</li>
+				<li>ギャップおじさんTRPG（書籍版ルルブ、陰謀、詳伝）</li>
+				<li>虚構侵蝕TRPG</li>
+				<li>銀剣のステラナイツ</li>
+				<li>クトゥルフ神話TRPG</li>
+				<li>新クトゥルフ神話TRPG</li>
+				<li>シノビガミ（改定前ルルブ、忍秘伝、流派ブック御斎学園）</li>
+				<li>ストリテラ</li>
+				<li>ダブルクロス3rd（1,2、上級、EA）</li>
+				<li>フタリソウサ（ルルブ、怪盗、仲良く）</li>
+				<li>マギカロギア</li>
 			</ul>
 		</div>
-		<div class="cont item" onclick='jump("trpg.html")'>
-			<h2>TRPG</h2>
+		<div class="cont ac">
+			<h2>通過済みシナリオ</h2>
+			<p>
+				<b>★</b>：GM可<br>
+				<u>( )</u>：シナリオ所持かつ未読→PLGMどっちも可<br>
+			</p>
+			<h3>◇クトゥルフ神話TRPG</h3>
 			<ul>
-				<li>所持ルルブ</li>
-				<li>キャラシート</li>
-				<li>通過シナリオ</li>
+				<li>アパート</li>
+				<li><u>（アステグラフ<b>★</b>）</u></li>
+				<li>鬼の棲む</li>
+				<li>風の又三郎<b>★</b></li>
+				<li>カタシロ</li>
+				<li><u>（影踏み様<b>★</b>）</u></li>
+				<li>キキツヅニナク</li>
+				<li>死人に口あり<b>★</b></li>
+				<li>宿命</li>
+				<li>絶対自由同盟<b>★</b></li>
+				<li>0からの飛距離</li>
+				<li>台風の目</li>
+				<li><u>（魂の境界<b>★</b>）</u></li>
+				<li>ネームレスカルト <b>★</b></li>
+				<li>ねこを拾ったことがある。<b>★</b></li>
+				<li><u>（ハコの底に残ったモノ<b>★</b>）</u></li>
+				<li>フカシカ▲▲▲</li>
+				<li>無開</li>
+				<li>羅生門</li>
 			</ul>
+			<h3>◇キズナバレット</h3>
+			<ul>
+				<li>キリング・ナイト<b>★</b></li>
+			</ul><h3>◇ギャップおじさんTRPG</h3>
+			<ul>
+				<li>艶剣襲来</li>
+				<li>こっち向いて</li>
+				<li>闘神</li>
+				<li>Who are you?</li>
+				<li>闇よりの使者</li>
+				<li>Life after</li>
+				<li>Lost spring</li>
+			</ul>
+			<h3>◇シノビガミ</h3>
+			<ul>
+				<li>想いを宿す一作<b>★</b></li>
+				<li>一つの忘却、二つの願い<b>★</b></li>
+				<li>へぇ......講師が死ぬと全員に単位が出るんだ......<b>★</b></li>
+			</ul>
+			<h3>◇ダブルクロス3rd</h3>
+			<ul>
+				<li>Crumble Days</li>
+				<li>Mirage Link</li>
+			</ul>
+			<h3>◇フタリソウサ</h3>
+			<ul>
+				<li>プリンを食べてはいけません</li>
+			</ul>
+		</div>
+		<div class="cont">
+			<h2>キャラシート</h2>
+			<span>※工事中</span>
 		</div>
 	</div>
 	<script>

@@ -1,62 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        body *{
-            position: relative;
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        body>div{
-            display: flex;
-        }
-        body>div>*{
-            width: 50vw;
-        }
-        .img{
-            max-height: 100vh;
-            object-fit: contain;
-            position: sticky;
-            border-right: thin solid;
-        }
-        p{
-            padding-left:1em;
-            word-break: break-all;
-        }
-        h1,h2,h3,h4,h5,h6{
-            margin-top: 16px;
-        }
-        h1{
-            border-bottom: thin solid black;
-            border-image: linear-gradient(90deg, gray, gray, transparent);
-            border-image-slice: 1;
-        }
-    </style>
-    <script src="../common/marked.min.js"></script>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style>
+		*{
+			position: relative;
+			box-sizing: border-box;
+			margin: 0;
+			padding: 0;
+		}
+		body>div{
+			display: flex;
+		}
+		body>div>*{
+			position: sticky;
+			top: 0;
+			width: 50vw;
+			padding:.5em;
+		}
+		.img{
+			max-height: 100vh;
+			object-fit: contain;
+			position: sticky;
+			border-right: thin solid;
+		}
+		p{
+			padding-left:1em;
+			word-break: break-all;
+			font-size:.7em;
+		}
+		h1,h2,h3,h4,h5,h6{
+			margin-top: 16px;
+		}
+		h1{
+			border-bottom: thin solid black;
+			border-image: linear-gradient(90deg, gray, gray, transparent);
+			border-image-slice: 1;
+			font-size: 28px;
+		}
+		h2{
+			font-size: 18px;
+		}
+		h3{
+			font-size: 12px;
+		}
+	</style>
+	<script src="../common/marked.min.js"></script>
 </head>
 <body>
-    <div>
-        <img class="img" src="片鱗HO2.png">
-       <p>
-            # 名前
-            ## 設定
-            設定いろいろ
-            ## HO2 殺人鬼
-            あいうえお
-        </p>
-    </div>
-    <script>
-        for(e of document.querySelectorAll("p")){
-            e.innerHTML=marked.parse(
-                e.textContent
-                    .replace(/^\s+/gm,"")
-            );
-        }
-    </script>
+	<div>
+		<img class="img" src="片鱗HO2.png">
+	   <div>
+			<h1>名前</h1>
+			<h2>設定</h2>
+			<p>
+				設定いろいろ
+			</p>
+			<h2>HO2 殺人鬼</h2>
+			<h3>＜記憶＞</h3>
+			<p>・貴方はとある人物を道端でナイフを用いて殺した。しかしナイフを突き立てた瞬間より以前の記憶がない。気がつけば殺害していたのだが、殺害した人物に対して恨みや憎しみの感情があったことだけは何となく覚えている。（とある人物については導入にて描写します）<br>
+			・貴方はキャラクターシートが必要ない。記憶が無いからだ。ダイスロールを行う場合は1d100を振る。成功失敗はKPから伝えられる。立ち絵だけ用意しよう。</p>
+
+			<h3>＜あの子＞</h3>
+			<p>・貴方は自分のことが何も思い出せないが、出会うHO1のことだけは何故かわかる。どのような子で、どこに住んでいて、どの学校に通っているかなどを把握している。そのためHO1の秘匿情報を一部把握できる。</p>
+
+			<h3>＜使命＞</h3>
+			<p>・時にHO1は両親から八つ当たりを受けていて、学校でも肩身の狭い思いをしているのも知っている。そんなあの子を守りたいと貴方はなぜかわからないが心から思う。<br>
+			・貴方の使命は『HO1をすべての恐れから守ること』だ。</p>
+
+			<h3>＜視線＞</h3>
+			<p>・貴方は誰かの気味悪い視線を感じることだろう。それは足元の水溜まりからだとか、風景を反射するショーウィンドウからであったりなど、ありえない不思議な場所から視線を感じるのだ。</p>
+
+
+			<h2>【HO2用：HO1の秘匿内容※一部】</h2>
+			<h3>＜家庭＞</h3>
+			<p>・貴方の家庭はとても居心地が悪い。アルコール依存症の父親と精神が病んでいる母親、そして認知症でトラブルメーカーの祖母。<br>
+			・物心ついた頃から両親は飽きることなく喧嘩をしており、家庭の悩みの種は常に尽きない。性格の悪い祖母が引き起こす問題について家庭内の雰囲気は年々悪化しており、居心地の悪さといったらこの上ない。<br>
+			・両親の怒鳴り声や、物が壊れる音が自分の部屋にいても聞こえてきて、喧嘩の騒音で早朝に目が覚めることもよくあることだ。</p>
+
+			<h3>＜きょうだい＞</h3>
+			<p>・貴方には4つ上のきょうだいがいる。口数はそう多く無い地味な人柄だが、貴方に対してはとても優しい。<br>
+			・貴方と共に居心地の悪い環境を耐えてきたが、県外の大学に通うため家を出ていった。きょうだいの性別は好きに決めて良い。</p>
+		</div>
+	</div>
 </body>
 </html>

@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="utf-8">
+	<title>袖置 のプロフィール</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="shortcut icon" href="index/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" sizes="152x152" href="index/apple-touch-icon-152x152.png">
+	<style>
+		@font-face {
+			font-family: 'm+';
+			src: url(./index/mplus-1m-bold.ttf);
+		}
+		body{
+			overflow-x: hidden;
+			--bg:white;
+		}
+		*{
+			position:relative;
+			margin:0;
+			padding:0;
+			box-sizing:border-box;
+		}
+		#bg, #main{
+			position: sticky;
+			width: 100%;height: auto;
+			top: 0;
+			left: 0;
+		}
+		#bg{
+			width: 100%;
+			min-height:30vh;
+			background-image: url("index/background.png");
+			background-size: cover;
+		}
+		#main{
+			background-color: var(--bg);
+		}
+		#icon{
+			height: 15vw;
+			max-height: 15vh;
+			transform: translateY(-40%);
+		}
+		#icon>.icon{
+			width: min(20vw,20vh);
+			height: min(20vw,20vh);
+			top: 0;
+			left: 10px;
+			overflow: hidden;
+		}
+		#icon>.icon>img{
+			width: 100%;
+			z-index: 1;
+			border-radius: 10%;
+			transform:rotateY(0deg);
+			transition: all 0.5s;
+		}
+		.icon::before{
+			content: "ホームへ戻る";
+			position: absolute;
+			display: inline-block;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(0,0,0,0.5);
+			border-radius: 10%;
+			color: white;
+			text-align: center;
+			line-height: min(20vw,20vh);
+			z-index: 0;
+			transform:rotateY(180deg);
+			transition: all 0.5s;
+		}
+		#icon>.icon:hover>img{
+			transform:rotateY(180deg);
+		}
+		.icon:hover::before{
+			z-index: 3;
+			transform:rotateY(0deg);
+		}
+		#link{
+			position: absolute;
+			display: flex;
+			top: calc(min(20vw,20vh) - 60px);
+			left: calc(min(20vw,20vh) + 1em);
+		}
+		.linkbutton{
+			display: block;
+			margin: 5px;
+			width: 40px;
+			height: 40px;
+			border:thin solid rgba(0,0,0,0.2);
+			border-radius: 50%;
+			background-color: var(--bg);
+			filter: drop-shadow(3px 3px 5px rgba(0,0,0,0.2));
+			text-decoration: none;
+			animation: float 2s ease-in-out 0s infinite alternate;
+			transition: all 0.5s;
+		}
+		.linkbutton:nth-child(2n){
+			animation-direction: alternate-reverse;
+		}
+		.linkbutton:nth-child(3n+1){
+			animation-duration:3s;
+		}
+		@keyframes float{
+			0%{
+				transform: translateY(-2px);
+			}
+			100%{
+				transform: translateY(2px);
+			}
+		}
+		.linkbutton svg{
+			padding: 10px;
+			width: 100%;
+			height: 100%;
+			stroke:black;
+			fill: #444;
+			stroke-width: .5px;
+			transition: all 0.5s;
+		}
+		.linkbutton svg.skeb text{
+			font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+			font-size: 130px;
+			font-weight: bold;
+			text-anchor: middle;
+		}
+		.linkbutton:hover{
+			background-color: #444;
+		}
+		.linkbutton:hover svg{
+			stroke: white;
+			fill: #ccc;
+		}
+		.cont{
+			background-color: var(--bg);
+			padding:1.5em 5% 3.5em;
+			--bg:#eee;
+			--mask: white;
+		}
+		.cont:nth-of-type(2n){
+			--bg:white;
+			--mask: #eee;
+		}
+		.cont::before{
+			content: "";
+			width: 0;
+			height: 0;
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			border-style: solid;
+			border-width: 1em 100vw 0 0;
+			border-color: transparent var(--mask);
+			z-index: 1;
+			overflow: visible !important;
+		}
+		.cont:nth-of-type(2n)::before{
+			border-width: 1em 0 0 100vw;
+		}
+		.cont>*{
+			margin-bottom: 1em;
+		}
+		.cont h2{
+			position: sticky;
+			top:0;
+			background-color: var(--bg);
+			z-index:1;
+		}
+		.cont h3{
+			margin-bottom: 0.3rem;
+		}
+		.ac{
+			max-height: 1000px;
+			transition: all 1s;
+		}
+		.ac>*:not(h2){
+			opacity: 1;
+			transition: all 1s;
+		}
+		.ac:not(.open){
+			max-height: 7em;
+			overflow: hidden;
+		}
+		.ac:not(.open)>*:not(h2){
+			opacity: 0;
+		}
+		.ac>h2{
+			text-indent: 1em;
+		}
+		.ac>h2::before{
+			content:"";
+			position:absolute;
+			height: 0.3em;
+			width: 0.3em;
+			border-bottom: 0.15em solid black;
+			border-right: 0.15em solid black;
+			top: 0.55em;left:0.15em;
+			transition:all 0.5s;}
+		.ac:not(.open)>h2::before{
+			transform: rotate(-45deg);}
+		.ac.open>h2::before{
+			transform: rotate(45deg);}
+		.deck{
+			display: flex;
+			flex-wrap: wrap;
+		}
+		.card{
+			width: calc(calc(100% - 10px) / 3 - 10px);
+			margin: 5px;
+			aspect-ratio: calc(2 / 3);
+			overflow: hidden;
+		}
+		.card>img{
+			width: 100%;
+			height: 100%;
+			object-fit: contain;
+		}
+		.card::after{
+			content: attr(alt) "";
+			position: absolute;
+			width: 100%;
+			bottom: 0;
+			left: 0;
+			background-color: rgba(0,0,0,0.5);
+			color: white;
+			font-size: 10px;
+		}
+		h1,h2,h3,h4,h5,h6{
+			font-family: "M+";
+		}
+		h2{
+			border-bottom: solid;
+			border-image: linear-gradient(to right, black, transparent);
+			border-image-slice: 1;
+		}
+		small{
+			font-size: .7em;
+			color: gray;
+		}
+		li{
+			padding-left: 3em;
+			list-style: none;
+		}
+		li::before{
+			content: "・";
+			position: absolute;
+			left: 1.5em;
+		}
+	</style>
+</head>
+<body>
+	<div id="bg"></div>
+	<div id="main">
+		<div id="icon">
+			<div class="icon" onclick='jump("index.html")'><img src="index/icon.jpg"></div>
+			<div id="link">
+				<a class="linkbutton" href="https://twitter.com/sodie_oxige">
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-twitter"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
+				</a>
+				<a class="linkbutton" href="https://twitter.com/sodie_oxige">
+					<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" width="240px" height="240px">    <path d="M12.14,2C9.513,2,6.595,2.983,5.981,6.196C5.915,6.538,6.154,6.714,6.38,6.764l2.668,0.272 c0.251-0.013,0.451-0.247,0.499-0.494c0.23-1.107,1.167-1.654,2.219-1.654c0.568,0,1.21,0.213,1.546,0.716 c0.388,0.562,0.324,1.324,0.324,1.975v0.37C12.035,8.127,9.947,8.236,8.45,8.887c-1.73,0.74-2.942,2.249-2.942,4.468 c0,2.839,1.815,4.27,4.139,4.27c1.963,0,3.023-0.471,4.538-1.999c0.501,0.718,0.679,1.072,1.596,1.827 c0.206,0.109,0.466,0.088,0.648-0.074v0.025c0.551-0.486,1.556-1.358,2.119-1.827c0.224-0.182,0.176-0.467,0-0.716 c-0.505-0.69-1.022-1.262-1.022-2.543V8.072c0-1.804,0.121-3.473-1.222-4.715C15.244,2.351,13.482,2,12.14,2z M12.888,10.146 c0.249-0.016,0.498,0,0.748,0v0.592c0,1.065,0.043,1.941-0.499,2.888c-0.439,0.769-1.145,1.234-1.92,1.234 c-1.059,0-1.671-0.792-1.671-1.975C9.546,10.85,11.146,10.259,12.888,10.146z M20.517,16.515c-0.699,0.01-1.518,0.157-2.144,0.592 c-0.192,0.134-0.164,0.321,0.05,0.296c0.705-0.084,2.263-0.281,2.543,0.074c0.28,0.355-0.31,1.815-0.573,2.468 c-0.08,0.197,0.094,0.273,0.274,0.123c1.173-0.972,1.487-2.988,1.247-3.283C21.795,16.641,21.217,16.505,20.517,16.515z M2.141,16.885c-0.146,0.019-0.204,0.208-0.05,0.346c2.608,2.331,6.047,3.727,9.874,3.727c2.73,0,5.917-0.846,8.104-2.444 c0.361-0.265,0.046-0.674-0.324-0.518c-2.452,1.03-5.131,1.53-7.555,1.53c-3.594,0-7.061-0.971-9.874-2.592 C2.254,16.899,2.189,16.879,2.141,16.885z"/></svg>
+				</a>
+				<a class="linkbutton" href="https://odaibako.net/u/sodie_oxige">
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-archive"><polyline points="21 8 21 21 3 21 3 8"></polyline><rect x="1" y="3" width="22" height="5"></rect><line x1="10" y1="12" x2="14" y2="12"></line></svg>
+				</a>
+				<a class="linkbutton" href="https://odaibako.net/u/sodie_oxige">
+					<svg class="skeb" viewBox="0 0 100 100">
+						<text x="50" y="90">S</text>
+					</svg>
+				</a>
+			</div>
+		</div>
+		<div class="cont">
+			<h2>イラスト</h2>
+			<p>
+				過去絵まとめ。随時更新。
+			</p>
+
+		</div>
+		<div class="cont ac">
+			<h2>立ち絵（オリジナル）</h2>
+			<p>
+				主にTRPG用に描いたの立ち絵。<br>
+				CoC中心なので現代日本系がほとんど。ファンタジーは私には厳しい。<br>
+			</p>
+			<div class="deck">
+				<div class="card" alt="CoC『風の又三郎』KPC・霧仲五里">
+					<img src="index/img/IMG_0444.jpg">
+				</div>
+				<div class="card" alt="CoC『無開』PC・夜天明宵(夜語トバリ立ち絵改変)→二次創作絵">
+					<img src="index/img/IMG_0491.jpg">
+				</div>
+				<div class="card" alt="DX3rd『Mirage Link』PC1・日下部汐人">
+					<img src="index/img/IMG_0426.jpg">
+				</div>
+				<div class="card" alt="CoC『キキツヅニナク』PC・夜天明宵">
+					<img src="index/img/IMG_0359.jpg">
+				</div>
+				<div class="card" alt="未使用・名前未定">
+					<img src="index/img/IMG_0327.jpg">
+				</div>
+				<div class="card" alt="ギャップおじさんTRPG『Who are you?』PC・余色透">
+					<img src="index/img/IMG_2912.jpg">
+				</div>
+				<div class="card" alt="CoC『鬼の棲む』PC・底峰針路">
+					<img src="index/img/IMG_0183.jpg">
+				</div>
+				<div class="card" alt="CoC『風の又三郎』KPC・余色透">
+					<img src="index/img/IMG_0177.jpg">
+				</div>
+				<div class="card" alt="未使用・名前未定">
+					<img src="index/img/IMG_3243.jpg">
+				</div>
+				<div class="card" alt="未使用・名前未定">
+					<img src="index/img/IMG_3234.jpg">
+				</div>
+				<div class="card" alt="未使用・名前未定">
+					<img src="index/img/IMG_3201.jpg">
+				</div>
+			</div>
+		</div>
+		<div class="cont ac">
+			<h2>立ち絵以外（オリジナル）</h2>
+			<div class="deck">
+				<div class="card" alt="(自分の)誕生日絵">
+					<img src="index/img/IMG_0455.jpg">
+				</div>
+				<div class="card" alt="正月絵">
+					<img src="index/img/IMG_0364.jpg">
+				</div>
+				<div class="card">
+					<img src="index/img/IMG_0310.jpg">
+				</div>
+				<div class="card">
+					<img src="index/img/IMG_0287.jpg">
+				</div>
+				<div class="card" alt="夏だな～絵">
+					<img src="index/img/IMG_3025.jpg">
+				</div>
+			</div>
+		</div>
+		<div class="cont ac">
+			<h2>二次創作絵</h2>
+			<p>
+				バーチャルユーチューバーや動画、漫画に小説などのファンアート。<br>
+			</p>
+			<div class="deck">
+				<div class="card" alt="ニコニコ動画/voiceroid劇場作品「名ばかり探偵、事沈めたり」ファンアート">
+					<img src="index/img/IMG_0478.jpg">
+				</div>
+				<div class="card" alt="A.I.VOICE/夜語トバリ(配布予定立ち絵)">
+					<img src="index/img/IMG_0404.jpg">
+				</div>
+				<div class="card" alt="アークナイツ/ロベルタ">
+					<img src="index/img/IMG_3366.jpg">
+				</div>
+				<div class="card" alt="A.I.VOICE/夜語トバリ">
+					<img src="index/img/IMG_0038.jpg">
+				</div>
+				<div class="card" alt="Vtuber/名取さな">
+					<img src="index/img/IMG_2369.jpg">
+				</div>
+			</div>
+		</div>
+		<div class="cont ac">
+			<h2>配布立ち絵</h2>
+			<p>
+				ソフトウェアトーク系の配布立ち絵。<br>
+				元作品の規約を守って良識の範囲内でご使用しろ。<br>
+			</p>
+			<iframe width="312" height="176" src="https://ext.seiga.nicovideo.jp/thumb/im10901604" scrolling="no" style="border:solid 1px #888;" frameborder="0"><a href="https://seiga.nicovideo.jp/seiga/im10901604">かっこいい系結月ゆかり立ち絵素材（v1.1）</a></iframe>
+			<iframe width="312" height="176" src="https://ext.seiga.nicovideo.jp/thumb/im10813033" scrolling="no" style="border:solid 1px #888;" frameborder="0"><a href="https://seiga.nicovideo.jp/seiga/im10813033">知らない衣装の結月ゆかりさん立ち絵</a></iframe>
+		</div>
+	</div>
+	<script>
+		for(i of document.querySelectorAll(".ac")){
+			i.firstElementChild.addEventListener("click",function(){
+				this.parentElement.classList.toggle("open");
+			});
+		};
+		function jump(url){
+			location.href=url;
+		}
+	</script>
+</body>
+</html>
