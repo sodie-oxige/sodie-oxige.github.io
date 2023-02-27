@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body *{
+            position: relative;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body>div{
+            display: flex;
+        }
+        body>div>*{
+            width: 50vw;
+        }
+        .img{
+            max-height: 100vh;
+            object-fit: contain;
+            position: sticky;
+            border-right: thin solid;
+        }
+        p{
+            padding-left:1em;
+            word-break: break-all;
+        }
+        h1,h2,h3,h4,h5,h6{
+            margin-top: 16px;
+        }
+        h1{
+            border-bottom: thin solid black;
+            border-image: linear-gradient(90deg, gray, gray, transparent);
+            border-image-slice: 1;
+        }
+    </style>
+    <script src="../common/marked.min.js"></script>
+</head>
+<body>
+    <div>
+        <img class="img" src="片鱗HO2.png">
+       <p>
+            # 名前
+            ## 設定
+            設定いろいろ
+            ## HO2 殺人鬼
+            あいうえお
+        </p>
+    </div>
+    <script>
+        for(e of document.querySelectorAll("p")){
+            e.innerHTML=marked.parse(
+                e.textContent
+                    .replace(/^\s+/gm,"")
+            );
+        }
+    </script>
+</body>
+</html>

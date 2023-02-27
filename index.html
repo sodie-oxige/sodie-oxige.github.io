@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="utf-8">
+	<title>袖置 のプロフィール</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="shortcut icon" href="index/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" sizes="152x152" href="index/apple-touch-icon-152x152.png">
+	<script src="./common/marked.min.js"></script>
+	<style>
+		@font-face {
+			font-family: 'm+';
+			src: url(./index/mplus-1m-bold.ttf);}
+		*{
+			position:relative;
+			margin:0;
+			padding:0;
+			box-sizing:border-box;}
+		body{
+			display:flex;
+			margin:1.2em 0;
+			flex-direction:column;
+			align-items:center;
+			background-color:black;}
+		body::before{
+			content:"";
+			position:fixed;
+			z-index:-1;
+			top:0;left:0;
+			width:100vw;height:100vh;
+			background-image: url(./index/background.png);
+			background-size:cover;
+			filter: blur(10px);}
+		body>div{
+			width:100%;
+			max-width:1000px;
+			background-color:rgba(255,255,255,0.65);}
+		header,footer{
+			position:fixed;
+			z-index:1;
+			left:0;
+			width:100%;
+			background-color:black;
+			color:white;}
+		header{
+			top:0;}
+		footer{
+			bottom:0;
+			padding-right:1em;
+			font-size:0.8em;
+			text-align:end;}
+		footer a{
+			color:cornflowerblue;}
+		#face{
+			display:flex;
+			margin:5em 0;
+			width:100%;
+			flex-direction:column;
+			font-family:'m+';}
+		#face>div{
+			margin:0 40%;}
+		#face>div>img{
+			margin:auto;
+			width:100%;
+			filter:drop-shadow(-4px -4px 3px rgba(255,255,255,0.1))drop-shadow(4px 4px 3px rgba(0,0,0,0.3));
+			border-radius:10px;}
+		#face>h1{
+			text-align:center;
+			padding-top:0.5em;}
+		#body{
+			width:100%;
+			padding-bottom:50vh;
+			font-family: system-ui;
+			overflow-x:clip;}
+		#body::after{
+			content:"";
+			display:block;
+			clear:both;}
+		#body>*{
+			margin:10px;
+			padding: 15px;
+			border-radius: 10px;
+			background-color:white;
+			display:flex;
+			flex-direction:column;
+			float:left;
+			text-decoration:none;
+			color:black;
+			filter:drop-shadow(-4px -4px 3px rgba(255,255,255,0.1))drop-shadow(4px 4px 3px rgba(0,0,0,0.3));
+			will-change: filter;}
+		#body>a:hover{
+			background-color:#eee;}
+		#body>.button{
+			padding:5px;
+			width:80px;
+			max-width:calc(25% - 20px);
+			aspect-ratio:1;
+			overflow:visible;}
+		#body>.button>img{
+			margin:auto;
+			min-width:60%;
+			width:48px;
+			max-width:100%;}
+		#body>.button>span{
+			position:absolute;
+			top:-2em; left:50%;
+			transform:translateX(-50%);
+			padding:0.5em 1em;
+			border-radius:3px;
+			background-color:white;
+			filter:drop-shadow(0 0 1px rgba(0,0,0,0.5));
+			word-break: keep-all;
+			font-family: 'm+',system-ui;
+			font-size:8px;
+			opacity:0;
+			transition:opacity 0.3s;}
+		#body>.button:hover>span{
+			opacity:1;}
+		#body>.button>span::before{
+			content:"";
+			position:absolute;
+			bottom:-4px; left:50%;
+			transform:translateX(-50%);
+			width:0;height:0;
+			border-style:solid;
+			border-width:5px 5px 0 5px;
+			border-color:white transparent transparent transparent;}
+		#body>.md>*:first-child{
+			margin-top:0.2em;}
+		#body>.w2{
+			width:calc(50% - 20px);}
+		#body>.w1{
+			width:calc(100% - 20px);}
+		#body>.br{
+			clear:both;}
+		#body>.center{
+			text-align:center;}
+		.md h2,.md h3{
+			margin: 0.5rem 0 0.2rem 0;}
+		a.md h2{
+			padding-left: 1em;}
+		a.md h2::before{
+			content: "";
+			position: absolute;
+			left: 0;
+			bottom: 50%;
+			transform: translate(0, 50%);
+			height: 0.8em;
+			width: 0.8em;
+			background-image: url(index/popup.svg);}
+		.md p{
+			margin: 0.2rem 0 0.2rem 1rem;}
+		.md ul{
+			margin: 0.2rem 0 0.2rem 2rem;}
+		.md li{
+			text-indent:-1em;
+			padding-left:1em;
+			list-style-type:none;}
+		.md li::before{
+			content:"・";
+			position:absolute;
+			top:0;left:0;
+			color:gray;}
+		.ac>h2{
+			position:sticky;
+			top:1em;
+			padding-left:1em;
+			background-color:white;
+			z-index:1;}
+		.ac>:not(h2){
+			display:inline;}
+		.ac:not(.open) >:not(h2){
+			display:none;}
+		.ac>h2::before{
+			content:"";
+			position:absolute;
+			height: 0.5em;
+			width: 0.5em;
+			border-bottom: 0.15em solid black;
+			border-right: 0.15em solid black;
+			top: 0.35em;left:0;
+			transition:all 0.5s;}
+		.ac:not(.open)>h2::before{
+			transform: rotate(-45deg);}
+		.ac.open>h2::before{
+			transform: rotate(45deg);}
+		#body>.slideShow{
+			display:block;
+			height:80vmin;
+			max-height:50vh;
+			overflow:visible;}
+		.slideShow>div>img{
+			left:50%;top:50%;
+			width:auto;height:90vmin;
+			object-fit:contain;
+			transform:translate(-50%,-50%);
+			user-drag:none;
+			-webkit-user-drag:none;
+			-khtml-user-drag:none;}
+		.slideShow .c, .slideShow .l, .slideShow .l2, .slideShow .r, .slideShow .r2{display:block;}
+		.slideShow>div{
+			display:none;
+			height:100vh;
+			position:absolute;
+			transform:translate(-50%,-50%);
+			overflow:clip;
+			border-radius:5px;
+			background-color:white;
+			box-shadow:0 0 20px rgba(0,0,0,0);
+			transition:all 0.5s cubic-bezier(0.37, 0, 0.63, 1);}
+		.slideShow>div::after{
+			content:"";
+			position:absolute;
+			top:0; right:0; bottom:0; left:0;
+			opacity:1;
+			box-shadow:inset 0 0 20px rgba(0,0,0,0.5);
+			transition:all 0.5s;}
+		.slideShow>.c:hover::after{opacity:0;}
+		.slideShow .c{
+			left:50%;top:50%;
+			max-width:50%;max-height:95%;
+			opacity:1;
+			z-index:2;}
+		.slideShow .c:hover{
+			max-width:min(90vw,900px);max-height:90vmin;
+			box-shadow:0 0 20px rgba(0,0,0,0.5);}
+		.slideShow .l{
+			left:25%;top:50%;
+			max-width:30%;max-height:80%;
+			opacity:0.5;
+			z-index:1;}
+		.slideShow .l2{
+			left:0;top:50%;
+			max-width:0;max-height:50%;
+			opacity:0;
+			z-index:0;}
+		.slideShow .r{
+			left:75%;top:50%;
+			max-width:30%;max-height:80%;
+			opacity:0.5;
+			z-index:1;}
+		.slideShow .r2{
+			left:100%;top:50%;
+			max-width:0;max-height:50%;
+			opacity:0;
+			z-index:0;}
+		.slideShow .left,
+		.slideShow .right{
+			position:absolute;
+			content:"";
+			top:0;
+			width:50px;height:100%;
+			z-index:3;}
+		.slideShow .left{
+			left:0;
+			border-radius:10px  0 0 10px;
+			background-image:linear-gradient(to right,rgba(0,0,0,0.3),transparent);}
+		.slideShow .right{
+			right:0;
+			border-radius:0 10px 10px 0;
+			background-image:linear-gradient(to left,rgba(0,0,0,0.3),transparent);}
+		.slideShow .left::before,
+		.slideShow .right::before{
+			content:"";
+			position:absolute;
+			height:0:width:0;
+			left:50%;top:50%;
+			transform:translate(-50%,-50%);
+			border-style:solid;
+			border-width:1em 0;
+			border-color:transparent black;}
+		.slideShow .left::before{
+			border-right-width:1em;}
+		.slideShow .right::before{
+			border-left-width:1em;}
+		.style1 em{color:silver; font-style:normal;}
+		.style1 strong{color:red;}
+		.style1 em strong{color:pink;}
+		body::after{
+			content:"";
+			position:fixed;
+			display:block;
+			top:100vh;left:0;
+			width:100vw;height:200vh;
+			background-image:linear-gradient(to bottom,transparent 0%,black 50%,black 100%);
+			transition:all 0.3s;}
+		body:has(.move)::after{
+			top:-100vh;}
+	</style>
+</head>
+<body><div>
+	<header><p>袖置のプロフィール</p></header>
+	<div id="face">
+		<div><img src="index/icon.jpg"></div>
+		<h1>袖置のプロフィール</h1>
+	</div>
+	<div id="body">
+		<a href="https://twitter.com/sodie_oxige" class="center button" target="_blank" ontouchstart="">
+			<img src="index/twitter.svg">
+			<span>twitter</span>
+		</a>
+		<a href="https://odaibako.net/u/sodie_oxige" class="center button" target="_blank" ontouchstart="">
+			<img src="index/archive.svg">
+			<span>お題箱</span>
+		</a>
+		<a href="https://www.amazon.jp/hz/wishlist/ls/20VSWUULFLFEY?ref_=wl_share" class="center button" target="_blank" ontouchstart="">
+			<img src="index/package.svg">
+			<span>欲しいものリスト</span>
+		</a>
+		<!--
+		<a href="https://scenario-tuker.netlify.app/users/651" class="center button" target="_blank" ontouchstart="">
+			<img src="index/book.svg">
+			<span>シナリオトーカー</span>
+		</a>-->
+		<a href="https://github.com/sodie-oxige" class="center button" target="_blank" ontouchstart="">
+			<img src="index/github.svg">
+			<span>github</span>
+		</a>
+		<div class="w1 md style1">
+			## ●自己紹介
+			絵を描いたりする人間。
+			TRPGとかソフトウェアトーク _（って伝わりづらそうだしもうボイロでよくない？）_ の沼に片足突っ込んでる。その為に描き始めたところもある。
+			jsかじってるのでchrome拡張機能とかこのページ作ったりで遊んだり。
+		</div>
+		<div class="w1 md">
+			## ●TRPG
+			基本は夜型。21:00～24:00がメイン。
+			ただし土日祝日は昼もいけるかもしれない。
+			システムは雑多。
+			### ◇所持ルルブ
+			- アマデウス
+			- キズナバレット（１、２）
+			- ギャップおじさんTRPG（書籍版ルルブ、陰謀、詳伝）
+			- 虚構侵蝕TRPG
+			- 銀剣のステラナイツ
+			- クトゥルフ神話TRPG
+			- 新クトゥルフ神話TRPG
+			- シノビガミ（改定前ルルブ、忍秘伝、流派ブック御斎学園）
+			- ストリテラ
+			- ダブルクロス3rd（1,2、上級、EA）
+			- フタリソウサ（ルルブ、怪盗、仲良く）
+			- マギカロギア
+		</div>
+		<div class="w1 md ac style1">
+			## ●TRPG通過済みシナリオ
+			**★**：GM可
+			_( )_ ：シナリオ所持かつ未読→PLGMどっちも可
+			### ◇CoC
+			- アパート
+			- _(アステグラフ**★**)_
+			- 鬼の棲む
+			- 風の又三郎**★**
+			- カタシロ
+			- _(影踏み様**★**)_
+			- キキツヅニナク
+			- 死人に口あり**★**
+			- 宿命
+			- 絶対自由同盟**★**
+			- 0からの飛距離
+			- 台風の目
+			- _(魂の境界**★**)_
+			- ネームレスカルト **★**
+			- ねこを拾ったことがある。**★**
+			- _(ハコの底に残ったモノ**★**)_
+			- フカシカ▲▲▲
+			- 無開
+			- 羅生門
+			### ◇キズナバレット
+			- キリング・ナイト**★**
+			### ◇ギャップおじさんTRPG
+			- 艶剣襲来
+			- こっち向いて
+			- 闘神
+			- Who are you?
+			- 闇よりの使者
+			- Life after
+			- Lost spring
+			### ◇シノビガミ
+			- 想いを宿す一作**★**
+			- 一つの忘却、二つの願い**★**
+			- へぇ......講師が死ぬと全員に単位が出るんだ......**★**
+			### ◇ダブルクロス3rd
+			- Crumble Days
+			- Mirage Link
+			### ◇フタリソウサ
+			- プリンを食べてはいけません
+		</div>
+		<div class="w1 md">
+			## ●フレンド募集
+			FGO【145,495,895】
+			アークナイツ【袖置#9249】*現在満タン*
+		</div>
+		<a href="https://rss.r401.net/yaruo/categories/13754?order=a" class="w1 md" target="_blank">
+			## 布教①：下衆モン
+			凡才が天才たちを喰らうために家族を作る話。
+			憎しみとか正義とかじゃなくて、単純に自己満足のためだけに戦うのが"人間"って感じしてとても良い。
+			安価ゲーム形式のポケモン二次(三次)創作やる夫スレ。
+		</a>
+		<a href="https://www.nicovideo.jp/series/257021" class="w1 md" target="_blank">
+			## 布教②：名ばかり探偵シリーズ
+			推理ものボイロ劇場。
+			ずん子とタッグを組みながら自分の過去に挑むJK探偵の茜ちゃんのお話。あるいは事件関係者から友人、そして探偵助手へと成長していく東北純子の成長譚。
+			推理ものなのに読心とかいう超能力出てくる。それ込みでお話作るの上手いし映像作るの上手いし何？？
+		</a>
+<!--		<div class="slideShow w1">
+			<span class="left"></span>
+			<div class="c" ontouchstart=""><img src="index/img/small/230127.PNG"></div>
+			<div class="r" ontouchstart=""><img src="index/img/small/221206.PNG"></div>
+			<div class="r2" ontouchstart=""><img src="index/img/small/221123.JPEG"></div>
+			<div class ontouchstart=""><img src="index/img/small/220919.PNG"></div>
+			<div class ontouchstart=""><img src="index/img/small/220822.PNG"></div>
+			<div class ontouchstart=""><img src="index/img/small/220803.PNG"></div>
+			<div class ontouchstart=""><img src="index/img/small/220801.PNG"></div>
+			<div class ontouchstart=""><img src="index/img/small/220714.PNG"></div>
+			<div class="l2" ontouchstart=""><img src="index/img/small/220713.PNG"></div>
+			<div class="l" ontouchstart=""><img src="index/img/small/220706.PNG"></div>
+			<span class="right" ontouchstart=""></span>
+		</div>-->
+	</div>
+	<footer>
+		<p>
+			連絡先：<a href="https://twitter.com/sodie_oxige" target="_blank">twitter</a>
+		</p>
+	</footer>
+</div>
+<script>
+	marked.setOptions({breaks:true});
+	for(i of document.querySelectorAll(".md")) i.innerHTML = marked.parse(i.textContent.replace(/\t/g,""));
+	for(i of document.querySelectorAll(".ac")){
+		i.firstElementChild.addEventListener("click",function(){
+			this.parentElement.classList.toggle("open");
+		});
+	};
+	function moveClassR(e,c){
+		var f=e.querySelector("."+c);
+		if(f.nextElementSibling.tagName=="SPAN"){
+			e.querySelector("span.left").nextElementSibling.classList.add(c);
+		}else{
+			f.nextElementSibling.classList.add(c);
+		}
+		f.classList.remove(c);
+	}
+	function moveClassL(e,c){
+		var f=e.querySelector("."+c);
+		if(f.previousElementSibling.tagName=="SPAN"){
+			e.querySelector("span.right").previousElementSibling.classList.add(c);
+		}else{
+			f.previousElementSibling.classList.add(c);
+		}
+		f.classList.remove(c);
+	}
+	for(i of document.querySelectorAll(".slideShow")){
+		i.firstElementChild.addEventListener("click",function(){
+			moveClassL(i,"l2");
+			moveClassL(i,"l");
+			moveClassL(i,"c");
+			moveClassL(i,"r");
+			moveClassL(i,"r2");
+		});
+		i.lastElementChild.addEventListener("click",function(){
+			moveClassR(i,"l2");
+			moveClassR(i,"l");
+			moveClassR(i,"c");
+			moveClassR(i,"r");
+			moveClassR(i,"r2");
+		});
+	};
+	function pageChange(url){
+		document.querySelector("body>div").classList.add("move");
+		setTimeout(()=>{location.href=url},0.3);
+	}
+</script>
+</body>
+</html>
